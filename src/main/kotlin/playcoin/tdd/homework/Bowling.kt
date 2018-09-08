@@ -4,10 +4,10 @@ var rolls = IntArray(21)
 var index = 0
 var frameIndex = 0
 var hasNext = true
-var score = 0
+//var frameScore = IntArray(10)
+//var calcFrameScore = IntArray(10)
 
 fun roll(pin: Int): Boolean {
-    score += pin
     if( pin < 0 || 10 < pin) throw IllegalArgumentException()
     if (index >= 21) throw IllegalStateException()
     if (hasNext == false) throw IllegalStateException()
@@ -32,5 +32,19 @@ fun roll(pin: Int): Boolean {
 }
 
 fun score(): Int {
-    return score
+    val frameScore = IntArray(10)
+    for(i in rolls.indices ) {
+        if (i < 18) {
+            var frameIndex = i / 2
+            frameScore[frameIndex] += rolls[i]
+            // spare
+            if (i % 2 == 1 && rolls[i-1] + rolls[i] == 10) {
+                frameScore[frameIndex] += rolls[i+1]
+            }
+
+        } else {
+            //ignore
+        }
+    }
+    return frameScore.reduce {acc, i -> acc + i }
 }

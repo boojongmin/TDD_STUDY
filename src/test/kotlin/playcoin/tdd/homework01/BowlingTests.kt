@@ -221,6 +221,9 @@ class `볼링 프로그램 테스트` {
          *  - roll REPEAT 0 score == 0
          *  - roll(pin) score == pin
          *  - roll(1) REPEAT 20  score == 20
+         *  [desc] spare 테스트
+         *  - roll(9), roll(1), roll(pin) then score == (10 + pin) + pin
+         *  - roll(5), roll(5), roll(5), roll(5), roll(1) then score == 27
          */
         @Test
         @DisplayName("roll REPEAT 0 score == 0")
@@ -244,7 +247,51 @@ class `볼링 프로그램 테스트` {
             assertThat(score()).isEqualTo(1 * 20)
             assertThatThrownBy { (0..20).forEach { roll(1) } }.isInstanceOf(IllegalStateException::class.java)
         }
-    }
 
+        @Test
+        @DisplayName("roll(1) REPEAT 20  score == 20")
+        fun test04() {
+            val pin = 1
+            (0..19).forEach { roll(1) }
+            assertThat(score()).isEqualTo(1 * 20)
+            assertThatThrownBy { (0..20).forEach { roll(1) } }.isInstanceOf(IllegalStateException::class.java)
+        }
+
+        @Nested
+        inner class `spare 테스트` {
+            @Test
+            @DisplayName("roll(9), roll(1), roll(pin) then score == (10 + pin) + pin")
+            fun test01() {
+                roll(9)
+                roll(1)
+                //spare
+                roll(1)
+                assertThat(score()).isEqualTo(12)
+            }
+
+            @Test
+            @DisplayName("roll(5), roll(5), roll(5), roll(5), roll(1) then score == 27")
+            fun test02() {
+                roll(5)
+                roll(5)
+                //spare
+                roll(5)
+                roll(5)
+                //spare
+                roll(1)
+                assertThat(score()).isEqualTo(27)
+            }
+        }
+
+        @Nested
+        inner class `strike 테스트` {
+            @Test
+            @DisplayName("")
+            fun test01() {
+
+            }
+
+        }
+    }
 }
 
