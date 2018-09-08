@@ -220,6 +220,7 @@ class `볼링 프로그램 테스트` {
          *  테스트 시나리오
          *  - roll REPEAT 0 score == 0
          *  - roll(pin) score == pin
+         *  - roll(1) REPEAT 20  score == 20
          */
         @Test
         @DisplayName("roll REPEAT 0 score == 0")
@@ -233,6 +234,15 @@ class `볼링 프로그램 테스트` {
             val pin = 1
             roll(pin)
             assertThat(score()).isEqualTo(pin)
+        }
+
+        @Test
+        @DisplayName("roll(1) REPEAT 20  score == 20")
+        fun test03() {
+            val pin = 1
+            (0..19).forEach { roll(1) }
+            assertThat(score()).isEqualTo(1 * 20)
+            assertThatThrownBy { (0..20).forEach { roll(1) } }.isInstanceOf(IllegalStateException::class.java)
         }
     }
 
