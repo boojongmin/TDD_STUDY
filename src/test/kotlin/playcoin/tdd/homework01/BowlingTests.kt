@@ -7,10 +7,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import playcoin.tdd.homework.frameIndex
-import playcoin.tdd.homework.index
-import playcoin.tdd.homework.roles
-import playcoin.tdd.homework.roll
+import playcoin.tdd.homework.*
 
 
 /**
@@ -65,22 +62,19 @@ class `볼링 프로그램 테스트` {
          * - [조건] index / 2 == frameIndex
          * - 0 <= farameIndex <= 9
          * [desc] 10프레임 테스트
+         * [desc] `pin`은 0~10까지의 임의 숫자
          * - if frameIndex is 9
          * - if( 0 <= first <= 9) then index += 1
          * - strike => index +1
          * - (10 frame)when strike 3 and roll(pin) then expect IllegalStateException
          * [desc] bouns role 계산
-         * [desc] `pin`은 0~10까지의 임의 숫자
-         * - index == 21 and (9frame first pin + second pin % 10 == (0: strike or spare))
-         * - role(10) REPEAT 9 + role(5) then role(4): false
+         * - index == 20 and (9frame first pin + second pin % 10 == (0: strike or spare))
+         * - role(10) REPEAT 9 + role(10) then role(10): true
          * - role(10) REPEAT 9 + role(5) then role(5): true
-         * - role(10) REPEAT 10 then role(0): false
-         * - role(10) REPEAT 10 then role(10) : true
-         * - role(10) REPEAT 10 then role(10): true
-         * - role(10) REPEAT 12 : false
-         * - role(10) REPEAT 9 then role(pin1) + role(pin2) : false   <== pin1 + pin2 < 10
-         * [desc] 보너스룰이 안되는 상황 role(pin): false 인 경우
-         * - if(role(pin) == false) role(pin) throw IllegalStateException
+         * - role(10) REPEAT 9 + role(5) then role(4): false
+         * - role(10) REPEAT 9 + role(10) then role(9): false
+         * - role(10) REPEAT 9 + role(9) then role(2) then expect IllegalArgumentException  <== pin1 + pin2 < 10
+         * - if(role(pin) == false) and role(pin) throw IllegalStateException
          */
         @Nested
         inner class `roll` {
@@ -133,20 +127,65 @@ class `볼링 프로그램 테스트` {
                 @DisplayName("(10 frame)when strike 3 and roll(pin) then expect IllegalStateException")
                 fun `test03`() {
                     goTo10Frame()
+                    roll(10)
+                    roll(10)
+                    roll(10)
                     assertThatThrownBy {
-                        roll(10)
-                        roll(10)
-                        roll(10)
                         roll(0)
                     }.isInstanceOf(IllegalStateException::class.java)
                 }
+            }
+
+            @Nested
+            inner class `bouns role 계산` {
+                @Test
+                @DisplayName("role(10) REPEAT 9 + role(9) then role(2) then expect IllegalArgumentException")
+                fun `test01`() {
+                    goTo10Frame()
+                    roll(9)
+                    assertThatThrownBy {
+                        roll(2)
+                    }.isInstanceOf(IllegalArgumentException::class.java)
+                }
 
                 @Test
-                @DisplayName("")
+                @DisplayName("role(10) REPEAT 9 + role(10) then role(10): true")
+                fun `test02`() {
+                    goTo10Frame()
+                    roll(10)
+                    val isBonus = roll(10)
+                    assertThat(isBonus).isTrue()
+                }
+
+
+                @Test
+                @DisplayName("role(10) REPEAT 9 + role(5) then role(5): true")
+                fun `test03`() {
+                    goTo10Frame()
+                    roll(5)
+                    val isBonus = roll(5)
+                    assertThat(isBonus).isTrue()
+                }
+
+                @Test
+                @DisplayName("role(10) REPEAT 9 + role(5) then role(4): false")
                 fun `test04`() {
                     goTo10Frame()
-
+                    roll(5)
+                    val isBonus = roll(4)
+                    assertThat(isBonus).isFalse()
                 }
+
+                @Test
+                @DisplayName("role(10) REPEAT 9 + role(10) then role(9): false")
+                fun `test05`() {
+                    goTo10Frame()
+                    roll(5)
+                    val isBonus = roll(5)
+                    assertThat(isBonus).isTrue()
+                }
+
+
             }
 
         }
