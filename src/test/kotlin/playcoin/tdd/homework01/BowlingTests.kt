@@ -59,15 +59,24 @@ class `볼링 프로그램 테스트` {
          */
         @Nested
         inner class `roll` {
-            @Test
-            fun `roll(0) then return true`() {
-                assertThat(roll(0)).isTrue()
+
+            @Nested
+            inner class `roll 단일 실행 테스트` {
+                @Test
+                fun `roll(0) then return true`() {
+                    assertThat(roll(0)).isTrue()
+                }
+
+                @Test
+                fun `(roll(-1) || roll(11)) then throw IllegalArgumentException`() {
+                    assertThatThrownBy{ roll(-1) }.isInstanceOf(IllegalArgumentException::class.java)
+                    assertThatThrownBy{ roll(11) }.isInstanceOf(IllegalArgumentException::class.java)
+                }
             }
 
-            @Test
-            fun `(roll(-1) || roll(11)) then throw IllegalArgumentException`() {
-                assertThatThrownBy{ roll(-1) }.isInstanceOf(IllegalArgumentException::class.java)
-                assertThatThrownBy{ roll(11) }.isInstanceOf(IllegalArgumentException::class.java)
+            @Nested
+            inner class `프레임 테스트` {
+
             }
         }
     }
