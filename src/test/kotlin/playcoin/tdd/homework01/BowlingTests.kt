@@ -2,6 +2,7 @@ package playcoin.tdd.homework01
 
 
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import playcoin.tdd.homework.roll
@@ -60,7 +61,13 @@ class `볼링 프로그램 테스트` {
         inner class `roll` {
             @Test
             fun `roll(0) then return true`() {
-                assertThat(roll(0)).isTrue();
+                assertThat(roll(0)).isTrue()
+            }
+
+            @Test
+            fun `(roll(-1) || roll(11)) then throw IllegalArgumentException`() {
+                assertThatThrownBy{ roll(-1) }.isInstanceOf(IllegalArgumentException::class.java)
+                assertThatThrownBy{ roll(11) }.isInstanceOf(IllegalArgumentException::class.java)
             }
         }
     }
