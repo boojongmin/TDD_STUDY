@@ -226,6 +226,8 @@ class `볼링 프로그램 테스트` {
          *  - roll(5), roll(5), roll(5), roll(5), roll(1) then score == 27
          *  [desc] strike 테스트
          *  - roll(10), roll(10), roll(10) then score (10 + 10 + 10) + (10 + 10 + 0) + (10 + 0 + 0) == 60
+         *  [desc] 10 프레임 테스트
+         *  - roll(10), roll(10), roll(10) then score (10 + 10 + 10) + (10 + 10 + 0) + (10 + 0 + 0) == 60
          */
         @Test
         @DisplayName("roll REPEAT 0 score == 0")
@@ -304,6 +306,42 @@ class `볼링 프로그램 테스트` {
                 roll(5)
                 roll(4)
                 assertThat(score()).isEqualTo(53)
+            }
+        }
+
+        @Nested
+        inner class `10 프레임 테스트` {
+            @Test
+            @DisplayName("roll(10) REPEAT 12  then score 300")
+            fun test01() {
+                (0..11).forEach { roll(10) }
+                assertThat(score()).isEqualTo(300)
+            }
+
+            @Test
+            @DisplayName("roll(10) REPEAT 12  then score 300")
+            fun test02() {
+                (0..10).forEach { roll(10) }
+                roll(1)
+                assertThat(score()).isEqualTo(291)
+            }
+
+            @Test
+            @DisplayName("roll(10) REPEAT 9 and roll(5) roll(5) roll(1)  then score 300")
+            fun test03() {
+                (0..8).forEach { roll(10) }
+                roll(5)
+                roll(5)
+                roll(1)
+                assertThat(score()).isEqualTo(266)
+            }
+            @Test
+            @DisplayName("roll(10) REPEAT 9 and roll(5) roll(4) roll(pin)  then expect IllegalStateException")
+            fun test04() {
+                (0..8).forEach { roll(10) }
+                roll(5)
+                roll(4)
+                assertThatThrownBy { roll(1) }.isInstanceOf(IllegalStateException::class.java)
             }
         }
     }

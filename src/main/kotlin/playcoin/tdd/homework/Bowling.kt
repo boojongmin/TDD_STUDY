@@ -39,7 +39,7 @@ fun score(): Int {
             frameScore[frameIndex] += rolls[i]
             // strike
             if (i % 2 == 0 && rolls[i] == 10) {
-                if (rolls[i+2] == 10) {
+                if (rolls[i+2] == 10 && i < 16) {
                     frameScore[frameIndex] += 10
                     frameScore[frameIndex] += rolls[i+4]
                 } else {
@@ -53,7 +53,7 @@ fun score(): Int {
             }
         // 10 프레임 이상
         } else {
-            //ignore
+            frameScore[9] += rolls[i]
         }
     }
     return frameScore.reduce {acc, i -> acc + i }
