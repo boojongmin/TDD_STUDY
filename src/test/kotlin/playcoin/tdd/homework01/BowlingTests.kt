@@ -224,6 +224,8 @@ class `볼링 프로그램 테스트` {
          *  [desc] spare 테스트
          *  - roll(9), roll(1), roll(pin) then score == (10 + pin) + pin
          *  - roll(5), roll(5), roll(5), roll(5), roll(1) then score == 27
+         *  [desc] strike 테스트
+         *  - roll(10), roll(10), roll(10) then score (10 + 10 + 10) + (10 + 10 + 0) + (10 + 0 + 0) == 60
          */
         @Test
         @DisplayName("roll REPEAT 0 score == 0")
@@ -286,11 +288,23 @@ class `볼링 프로그램 테스트` {
         @Nested
         inner class `strike 테스트` {
             @Test
-            @DisplayName("")
+            @DisplayName("roll(10), roll(10), roll(10) then score (10 + 10 + 10) + (10 + 10 + 0) + (10 + 0 + 0) == 60")
             fun test01() {
-
+                roll(10)
+                roll(10)
+                roll(10)
+                assertThat(score()).isEqualTo(60)
             }
 
+            @Test
+            @DisplayName("roll(10), roll(10), roll(5), roll(4)  then score 25 + 19 + 5 + 4 == 53")
+            fun test02() {
+                roll(10)
+                roll(10)
+                roll(5)
+                roll(4)
+                assertThat(score()).isEqualTo(53)
+            }
         }
     }
 }

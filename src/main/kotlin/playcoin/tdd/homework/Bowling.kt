@@ -37,11 +37,21 @@ fun score(): Int {
         if (i < 18) {
             var frameIndex = i / 2
             frameScore[frameIndex] += rolls[i]
+            // strike
+            if (i % 2 == 0 && rolls[i] == 10) {
+                if (rolls[i+2] == 10) {
+                    frameScore[frameIndex] += 10
+                    frameScore[frameIndex] += rolls[i+4]
+                } else {
+                    frameScore[frameIndex] += rolls[i+2]
+                    frameScore[frameIndex] += rolls[i+3]
+                }
+            }
             // spare
-            if (i % 2 == 1 && rolls[i-1] + rolls[i] == 10) {
+            else if (i % 2 == 1 && rolls[i-1] < 10 && (rolls[i-1] + rolls[i] == 10)) {
                 frameScore[frameIndex] += rolls[i+1]
             }
-
+        // 10 프레임 이상
         } else {
             //ignore
         }
