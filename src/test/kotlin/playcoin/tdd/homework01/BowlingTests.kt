@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import playcoin.tdd.homework.frameIndex
 import playcoin.tdd.homework.index
 import playcoin.tdd.homework.roles
 import playcoin.tdd.homework.roll
@@ -32,10 +33,16 @@ import playcoin.tdd.homework.roll
 fun reset() {
     roles  = IntArray(21)
     index = 0
+    frameIndex = 0
+}
+
+fun goTo10Frame() {
+    (0..8).forEach {
+        roll(10)
+    }
 }
 
 class `볼링 프로그램 테스트` {
-
     @Nested
     inner class `roll 메서드 테스트` {
         @BeforeEach
@@ -53,10 +60,15 @@ class `볼링 프로그램 테스트` {
          * [desc] `roles` is int[index], max index is 20
          * [desc] (index % 2 == 0) is `first` of a frame, (index %2 == 1) is `second` of a frame
          * - 0 <= first + second <= 10, or IllegalArgumentException
-         * - 0 <= first <= 9 : index += 1
-         * - first == 10 strike : index += 2
-         * - index / 2 == frameIndex
+         * - [조건] if( 0 <= first <= 9) then index += 1
+         * - [조건] first == 10 strike : index += 2
+         * - [조건] index / 2 == frameIndex
          * - 0 <= farameIndex <= 9
+         * [desc] 10프레임 테스트
+         * - if frameIndex is 9
+         * - if( 0 <= first <= 9) then index += 1
+         * - strike => index +1
+         * - (10 frame)when strike 3 and roll(pin) then expect IllegalStateException
          * [desc] bouns role 계산
          * [desc] `pin`은 0~10까지의 임의 숫자
          * - index == 21 and (9frame first pin + second pin % 10 == (0: strike or spare))
@@ -93,19 +105,50 @@ class `볼링 프로그램 테스트` {
                 @DisplayName("0 <= first + second <= 10, or IllegalArgumentException")
                 fun `test01`() {
                     assertThatThrownBy {
-                        roll(10);
-                        roll(10)
+                        roll(9)
+                        roll(2)
                     }.isInstanceOf(IllegalArgumentException::class.java)
                     // Exception 때문에 index 증가를하지 않음.
                     reset()
                     assertThatThrownBy {
                         roll(0)
                         roll(0)
-                        roll(10)
-                        roll(1)
+                        roll(9)
+                        roll(2)
                     }.isInstanceOf(IllegalArgumentException::class.java)
                 }
+
+                @Test
+                @DisplayName("0 <= farameIndex <= 9")
+                fun `test02`() {
+                    assertThatThrownBy {
+                        roll(9)
+                        roll(2)
+                    }.isInstanceOf(IllegalArgumentException::class.java)
+                    // Exception 때문에 index 증가를하지 않음.
+
+                }
+
+                @Test
+                @DisplayName("(10 frame)when strike 3 and roll(pin) then expect IllegalStateException")
+                fun `test03`() {
+                    goTo10Frame()
+                    assertThatThrownBy {
+                        roll(10)
+                        roll(10)
+                        roll(10)
+                        roll(0)
+                    }.isInstanceOf(IllegalStateException::class.java)
+                }
+
+                @Test
+                @DisplayName("")
+                fun `test04`() {
+                    goTo10Frame()
+
+                }
             }
+
         }
     }
 
