@@ -1,8 +1,10 @@
-package playcoin.tdd
+package playcoin.tdd.homework01
 
 
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import playcoin.tdd.homework.roll
 
 
 /**
@@ -57,8 +59,8 @@ class `볼링 프로그램 테스트` {
         @Nested
         inner class `roll` {
             @Test
-            fun `볼링공을 던진다 - 쓰러진핀은 0개`() {
-
+            fun `roll(0) then return true`() {
+                assertThat(roll(0)).isTrue();
             }
         }
     }
