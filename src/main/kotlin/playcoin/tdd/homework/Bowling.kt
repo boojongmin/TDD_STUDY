@@ -3,11 +3,12 @@ package playcoin.tdd.homework
 var roles = IntArray(21)
 var index = 0
 var frameIndex = 0
+var hasNext = true
 
 fun roll(pin: Int): Boolean {
-    var hasNext = true
     if( pin < 0 || 10 < pin) throw IllegalArgumentException()
     if (index >= 21) throw IllegalStateException()
+    if (hasNext == false) throw IllegalStateException()
     roles[index] = pin
     if(frameIndex >= 9) {
         if (index == 19 ) {

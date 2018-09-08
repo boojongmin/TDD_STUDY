@@ -31,6 +31,7 @@ fun reset() {
     roles  = IntArray(21)
     index = 0
     frameIndex = 0
+    hasNext = true
 }
 
 fun goTo10Frame() {
@@ -185,6 +186,23 @@ class `볼링 프로그램 테스트` {
                     assertThat(isBonus).isTrue()
                 }
 
+                @Test
+                @DisplayName("role(10) REPEAT 9 + role(10) then role(9): false")
+                fun `test06`() {
+                    goTo10Frame()
+                    roll(5)
+                    val isBonus = roll(5)
+                    assertThat(isBonus).isTrue()
+                }
+
+                @Test
+                @DisplayName("if(role(pin) == false) and role(pin) throw IllegalStateException")
+                fun `test07`() {
+                    goTo10Frame()
+                    roll(5)
+                    roll(4)
+                    assertThatThrownBy { roll(0) }.isInstanceOf(IllegalStateException::class.java)
+                }
 
             }
 
