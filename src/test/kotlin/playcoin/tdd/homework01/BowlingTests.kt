@@ -3,8 +3,12 @@ package playcoin.tdd.homework01
 
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import playcoin.tdd.homework.index
+import playcoin.tdd.homework.roles
 import playcoin.tdd.homework.roll
 
 
@@ -25,10 +29,19 @@ import playcoin.tdd.homework.roll
 - 새 테스트 통과마다 commit 해서 github에 올릴 것
 
  */
+fun reset() {
+    roles  = IntArray(21)
+    index = 0
+}
+
 class `볼링 프로그램 테스트` {
 
     @Nested
     inner class `roll 메서드 테스트` {
+        @BeforeEach
+        fun before() {
+            reset()
+        }
 
         /**
          * 테스트 시나리오
@@ -37,7 +50,7 @@ class `볼링 프로그램 테스트` {
          * - (roll(-1) || roll(11)) then throw IllegalArgumentException
          *
          * [desc] 프레임 테스트
-         * [desc] `roles` is int[21]
+         * [desc] `roles` is int[index], max index is 20
          * [desc] (index % 2 == 0) is `first` of a frame, (index %2 == 1) is `second` of a frame
          * - 0 <= first + second <= 10, or IllegalArgumentException
          * - 0 <= first <= 9 : index += 1
@@ -76,7 +89,22 @@ class `볼링 프로그램 테스트` {
 
             @Nested
             inner class `프레임 테스트` {
-
+                @Test
+                @DisplayName("0 <= first + second <= 10, or IllegalArgumentException")
+                fun `test01`() {
+                    assertThatThrownBy {
+                        roll(10);
+                        roll(10)
+                    }.isInstanceOf(IllegalArgumentException::class.java)
+                    // Exception 때문에 index 증가를하지 않음.
+                    reset()
+                    assertThatThrownBy {
+                        roll(0)
+                        roll(0)
+                        roll(10)
+                        roll(1)
+                    }.isInstanceOf(IllegalArgumentException::class.java)
+                }
             }
         }
     }
