@@ -28,7 +28,7 @@ import playcoin.tdd.homework.*
 
  */
 fun reset() {
-    roles  = IntArray(21)
+    rolls  = IntArray(21)
     index = 0
     frameIndex = 0
     hasNext = true
@@ -55,7 +55,7 @@ class `볼링 프로그램 테스트` {
          * - (roll(-1) || roll(11)) then throw IllegalArgumentException
          *
          * [desc] 프레임 테스트
-         * [desc] `roles` is int[index], max index is 20
+         * [desc] `rolls` is int[index], max index is 20
          * [desc] (index % 2 == 0) is `first` of a frame, (index %2 == 1) is `second` of a frame
          * - 0 <= first + second <= 10, or IllegalArgumentException
          * - [조건] if( 0 <= first <= 9) then index += 1
@@ -206,6 +206,24 @@ class `볼링 프로그램 테스트` {
 
             }
 
+        }
+    }
+
+    @Nested
+    inner class `score 메서드 테스트` {
+        @BeforeEach
+        fun before() {
+            reset()
+        }
+
+        /**
+        *  테스트 시나리오
+        *  - roll REPEAT 0 score == 0
+        */
+        @Test
+        @DisplayName("roll REPEAT 0 score == 0")
+        fun test01() {
+            assertThat(score()).isEqualTo(0)
         }
     }
 

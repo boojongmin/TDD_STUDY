@@ -28,3 +28,7 @@ fun roll(pin: Int): Boolean {
     if (frameIndex < 9 && index % 2 == 0) frameIndex++
     return hasNext
 }
+
+fun score(): Int {
+    return 0
+}
