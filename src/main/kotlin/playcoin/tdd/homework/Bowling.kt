@@ -4,8 +4,10 @@ var rolls = IntArray(21)
 var index = 0
 var frameIndex = 0
 var hasNext = true
+var score = 0
 
 fun roll(pin: Int): Boolean {
+    score += pin
     if( pin < 0 || 10 < pin) throw IllegalArgumentException()
     if (index >= 21) throw IllegalStateException()
     if (hasNext == false) throw IllegalStateException()
@@ -30,5 +32,5 @@ fun roll(pin: Int): Boolean {
 }
 
 fun score(): Int {
-    return 0
+    return score
 }

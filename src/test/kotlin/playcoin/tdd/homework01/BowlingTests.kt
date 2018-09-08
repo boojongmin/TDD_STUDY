@@ -217,13 +217,22 @@ class `볼링 프로그램 테스트` {
         }
 
         /**
-        *  테스트 시나리오
-        *  - roll REPEAT 0 score == 0
-        */
+         *  테스트 시나리오
+         *  - roll REPEAT 0 score == 0
+         *  - roll(pin) score == pin
+         */
         @Test
         @DisplayName("roll REPEAT 0 score == 0")
         fun test01() {
             assertThat(score()).isEqualTo(0)
+        }
+
+        @Test
+        @DisplayName("roll(pin) score == pin")
+        fun test02() {
+            val pin = 1
+            roll(pin)
+            assertThat(score()).isEqualTo(pin)
         }
     }
 
