@@ -207,136 +207,136 @@ class `볼링 프로그램 테스트` {
         }
     }
 
-    @Nested
-    inner class `score 메서드 테스트` {
-        /**
-         *  테스트 시나리오
-         *  - roll REPEAT 0 score == 0
-         *  - roll(pin) score == pin
-         *  - roll(1) REPEAT 20  score == 20
-         *  [desc] spare 테스트
-         *  - roll(9), roll(1), roll(pin) then score == (10 + pin) + pin
-         *  - roll(5), roll(5), roll(5), roll(5), roll(1) then score == 27
-         *  [desc] strike 테스트
-         *  - roll(10), roll(10), roll(10) then score (10 + 10 + 10) + (10 + 10 + 0) + (10 + 0 + 0) == 60
-         *  [desc] 10 프레임 테스트
-         *  - roll(10), roll(10), roll(10) then score (10 + 10 + 10) + (10 + 10 + 0) + (10 + 0 + 0) == 60
-         */
-        @Test
-        @DisplayName("roll REPEAT 0 score == 0")
-        fun test01() {
-            assertThat(game.score()).isEqualTo(0)
-        }
-
-        @Test
-        @DisplayName("roll(pin) score == pin")
-        fun test02() {
-            val pin = 1
-            game.roll(pin)
-            assertThat(game.score()).isEqualTo(pin)
-        }
-
-        @Test
-        @DisplayName("game.roll(1) REPEAT 20  score == 20")
-        fun test03() {
-            val pin = 1
-            (0..19).forEach { game.roll(1) }
-            assertThat(game.score()).isEqualTo(1 * 20)
-            assertThatThrownBy { (0..20).forEach { game.roll(1) } }.isInstanceOf(IllegalStateException::class.java)
-        }
-
-        @Test
-        @DisplayName("roll(1) REPEAT 20  score == 20")
-        fun test04() {
-            val pin = 1
-            (0..19).forEach { game.roll(1) }
-            assertThat(game.score()).isEqualTo(1 * 20)
-            assertThatThrownBy { (0..20).forEach { game.roll(1) } }.isInstanceOf(IllegalStateException::class.java)
-        }
-
-        @Nested
-        inner class `spare 테스트` {
-            @Test
-            @DisplayName("roll(9), roll(1), roll(pin) then score == (10 + pin) + pin")
-            fun test01() {
-                game.roll(9)
-                game.roll(1)
-                //spare
-                game.roll(1)
-                assertThat(game.score()).isEqualTo(12)
-            }
-
-            @Test
-            @DisplayName("roll(5), roll(5), roll(5), roll(5), roll(1) then score == 27")
-            fun test02() {
-                game.roll(5)
-                game.roll(5)
-                //spare
-                game.roll(5)
-                game.roll(5)
-                //spare
-                game.roll(1)
-                assertThat(game.score()).isEqualTo(27)
-            }
-        }
-
-        @Nested
-        inner class `strike 테스트` {
-            @Test
-            @DisplayName("roll(10), roll(10), roll(10) then score (10 + 10 + 10) + (10 + 10 + 0) + (10 + 0 + 0) == 60")
-            fun test01() {
-                game.roll(10)
-                game.roll(10)
-                game.roll(10)
-                assertThat(game.score()).isEqualTo(60)
-            }
-
-            @Test
-            @DisplayName("roll(10), roll(10), roll(5), roll(4)  then score 25 + 19 + 5 + 4 == 53")
-            fun test02() {
-                game.roll(10)
-                game.roll(10)
-                game.roll(5)
-                game.roll(4)
-                assertThat(game.score()).isEqualTo(53)
-            }
-        }
-
-        @Nested
-        inner class `10 프레임 테스트` {
-            @Test
-            @DisplayName("roll(10) REPEAT 12  then score 300")
-            fun test01() {
-                (0..11).forEach { game.roll(10) }
-                assertThat(game.score()).isEqualTo(300)
-            }
-
-            @Test
-            @DisplayName("game.roll(10) REPEAT 12  then score 300")
-            fun test02() {
-                (0..10).forEach { game.roll(10) }
-                game.roll(1)
-                assertThat(game.score()).isEqualTo(291)
-            }
-
-            @Test
-            @DisplayName("roll(10) REPEAT 9 and roll(5) roll(5) roll(1)  then score 300")
-            fun test03() {
-                (0..8).forEach { game.roll(10) }
-                game.roll(5)
-                game.roll(5)
-                game.roll(1)
-                assertThat(game.score()).isEqualTo(266)
-            }
-            @Test
-            @DisplayName("roll(10) REPEAT 9 and roll(5) roll(4) roll(pin)  then expect IllegalStateException")
-            fun test04() {
-                (0..8).forEach { game.roll(10) }
-                game.roll(5)
-                game.roll(4)
-                assertThatThrownBy { game.roll(1) }.isInstanceOf(IllegalStateException::class.java)
-            }
-        }
-    }
+//    @Nested
+//    inner class `score 메서드 테스트` {
+//        /**
+//         *  테스트 시나리오
+//         *  - roll REPEAT 0 score == 0
+//         *  - roll(pin) score == pin
+//         *  - roll(1) REPEAT 20  score == 20
+//         *  [desc] spare 테스트
+//         *  - roll(9), roll(1), roll(pin) then score == (10 + pin) + pin
+//         *  - roll(5), roll(5), roll(5), roll(5), roll(1) then score == 27
+//         *  [desc] strike 테스트
+//         *  - roll(10), roll(10), roll(10) then score (10 + 10 + 10) + (10 + 10 + 0) + (10 + 0 + 0) == 60
+//         *  [desc] 10 프레임 테스트
+//         *  - roll(10), roll(10), roll(10) then score (10 + 10 + 10) + (10 + 10 + 0) + (10 + 0 + 0) == 60
+//         */
+//        @Test
+//        @DisplayName("roll REPEAT 0 score == 0")
+//        fun test01() {
+//            assertThat(game.score()).isEqualTo(0)
+//        }
+//
+//        @Test
+//        @DisplayName("roll(pin) score == pin")
+//        fun test02() {
+//            val pin = 1
+//            game.roll(pin)
+//            assertThat(game.score()).isEqualTo(pin)
+//        }
+//
+//        @Test
+//        @DisplayName("game.roll(1) REPEAT 20  score == 20")
+//        fun test03() {
+//            val pin = 1
+//            (0..19).forEach { game.roll(1) }
+//            assertThat(game.score()).isEqualTo(1 * 20)
+//            assertThatThrownBy { (0..20).forEach { game.roll(1) } }.isInstanceOf(IllegalStateException::class.java)
+//        }
+//
+//        @Test
+//        @DisplayName("roll(1) REPEAT 20  score == 20")
+//        fun test04() {
+//            val pin = 1
+//            (0..19).forEach { game.roll(1) }
+//            assertThat(game.score()).isEqualTo(1 * 20)
+//            assertThatThrownBy { (0..20).forEach { game.roll(1) } }.isInstanceOf(IllegalStateException::class.java)
+//        }
+//
+//        @Nested
+//        inner class `spare 테스트` {
+//            @Test
+//            @DisplayName("roll(9), roll(1), roll(pin) then score == (10 + pin) + pin")
+//            fun test01() {
+//                game.roll(9)
+//                game.roll(1)
+//                //spare
+//                game.roll(1)
+//                assertThat(game.score()).isEqualTo(12)
+//            }
+//
+//            @Test
+//            @DisplayName("roll(5), roll(5), roll(5), roll(5), roll(1) then score == 27")
+//            fun test02() {
+//                game.roll(5)
+//                game.roll(5)
+//                //spare
+//                game.roll(5)
+//                game.roll(5)
+//                //spare
+//                game.roll(1)
+//                assertThat(game.score()).isEqualTo(27)
+//            }
+//        }
+//
+//        @Nested
+//        inner class `strike 테스트` {
+//            @Test
+//            @DisplayName("roll(10), roll(10), roll(10) then score (10 + 10 + 10) + (10 + 10 + 0) + (10 + 0 + 0) == 60")
+//            fun test01() {
+//                game.roll(10)
+//                game.roll(10)
+//                game.roll(10)
+//                assertThat(game.score()).isEqualTo(60)
+//            }
+//
+//            @Test
+//            @DisplayName("roll(10), roll(10), roll(5), roll(4)  then score 25 + 19 + 5 + 4 == 53")
+//            fun test02() {
+//                game.roll(10)
+//                game.roll(10)
+//                game.roll(5)
+//                game.roll(4)
+//                assertThat(game.score()).isEqualTo(53)
+//            }
+//        }
+//
+//        @Nested
+//        inner class `10 프레임 테스트` {
+//            @Test
+//            @DisplayName("roll(10) REPEAT 12  then score 300")
+//            fun test01() {
+//                (0..11).forEach { game.roll(10) }
+//                assertThat(game.score()).isEqualTo(300)
+//            }
+//
+//            @Test
+//            @DisplayName("game.roll(10) REPEAT 12  then score 300")
+//            fun test02() {
+//                (0..10).forEach { game.roll(10) }
+//                game.roll(1)
+//                assertThat(game.score()).isEqualTo(291)
+//            }
+//
+//            @Test
+//            @DisplayName("roll(10) REPEAT 9 and roll(5) roll(5) roll(1)  then score 300")
+//            fun test03() {
+//                (0..8).forEach { game.roll(10) }
+//                game.roll(5)
+//                game.roll(5)
+//                game.roll(1)
+//                assertThat(game.score()).isEqualTo(266)
+//            }
+//            @Test
+//            @DisplayName("roll(10) REPEAT 9 and roll(5) roll(4) roll(pin)  then expect IllegalStateException")
+//            fun test04() {
+//                (0..8).forEach { game.roll(10) }
+//                game.roll(5)
+//                game.roll(4)
+//                assertThatThrownBy { game.roll(1) }.isInstanceOf(IllegalStateException::class.java)
+//            }
+//        }
+//    }
 }
 
