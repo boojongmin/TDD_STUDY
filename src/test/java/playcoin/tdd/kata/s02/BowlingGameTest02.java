@@ -1,23 +1,27 @@
-package playcoin.tdd.kata.s01;
+package playcoin.tdd.kata.s02;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
-public class BowlingGame01Test {
-	BowlingGame01 g;
-
+public class BowlingGameTest02 {
+	BowlingGame02 g;
 	@BeforeEach
 	void before() {
-		g = new BowlingGame01();
+		g = new BowlingGame02();
+
 	}
-
-
 	@Test
 	void testGutterGame() {
 		rollMany(20, 0);
 		assertThat(g.score()).isEqualTo(0);
+	}
+
+	private void rollMany(int n, int pin) {
+		for (int i = 0; i < n; i++) {
+			g.roll(pin);
+		}
 	}
 
 	@Test
@@ -30,17 +34,18 @@ public class BowlingGame01Test {
 	void testOneSpare() {
 		rollSpare();
 		g.roll(3);
-		rollMany(16, 0);
+		rollMany(17, 0);
 		assertThat(g.score()).isEqualTo(16);
 	}
 
 	@Test
-	void testOneStrike() {
-		rollStrike(); // strike
+	void testStrike() {
+		rollStrike();
 		g.roll(3);
 		g.roll(4);
-		rollMany(17, 0);
+		rollMany(16, 0);
 		assertThat(g.score()).isEqualTo(24);
+
 	}
 
 	@Test
@@ -49,26 +54,13 @@ public class BowlingGame01Test {
 		assertThat(g.score()).isEqualTo(300);
 	}
 
-	@Test
-	void testSomeGame() {
-		rollMany(9, 10);
-		g.roll(10);
-		g.roll(9);
-		assertThat(g.score()).isEqualTo(288);
-	}
-
 	private void rollStrike() {
 		g.roll(10);
 	}
 
 	private void rollSpare() {
 		g.roll(5);
-		g.roll(5); // spare
-	}
-
-	private void rollMany(int n, int pins) {
-		for (int i = 0; i < n; i++)
-			g.roll(pins);
+		g.roll(5); //spare
 	}
 
 }
